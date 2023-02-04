@@ -37,5 +37,6 @@ def delete_reviewer(id:int):
         return JSONResponse(status_code=404,content={"message":"No found"})
     ReviewerService(db).delete_reviewer(id)
     return JSONResponse(content="Delete reviewer", status_code=200)
+    
 
 

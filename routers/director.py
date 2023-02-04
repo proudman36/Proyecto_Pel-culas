@@ -28,3 +28,12 @@ def create_director(director:Director) ->dict:
     db = Session()
     DirectorService(db).create_director(director)
     return JSONResponse(content={'Message':'Director saved in data base'})
+
+@director_router.delete('/director/{id}',tags=['director'])
+def delete_director(id:int):
+    db = Session()
+    result = DirectorService(db).get_director_id(id)
+    if not result:
+        return JSONResponse(status_code=404,content={"message":"No found"})
+    DirectorService(db).delete_director(id)
+    return JSONResponse(content="Delete director", status_code=200)
