@@ -29,6 +29,15 @@ def get_genre(id:int = Path(ge=1,le=2000)):
         return JSONResponse(status_code=404,content={"message":"No found"})
     return JSONResponse(content=jsonable_encoder(result), status_code=200)  
 
+@reviewer_router.put('/reviewer/{id}',tags=['reviewer'])
+def update_rating(id:int, reviewer:Reviewer):
+    db = Session()
+    result = ReviewerService(db).get_reviewer_id(id)
+    if not result:
+        return JSONResponse(content={'message':'Register not found','status code':'404'})
+    ReviewerService(db).update_reviewer(id,reviewer)
+    return JSONResponse(content={'message':'The reviewer with the id {id} was modified'})
+
 @reviewer_router.delete('/reviewer/{id}',tags=['reviewer'])
 def delete_reviewer(id:int):
     db = Session()
@@ -37,6 +46,6 @@ def delete_reviewer(id:int):
         return JSONResponse(status_code=404,content={"message":"No found"})
     ReviewerService(db).delete_reviewer(id)
     return JSONResponse(content="Delete reviewer", status_code=200)
-    
+
 
 

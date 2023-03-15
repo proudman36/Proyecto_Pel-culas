@@ -29,6 +29,15 @@ def create_rating(rating:Rating) -> dict:
     RatingService(db).create_rating(rating)
     return JSONResponse(content={'Message':'Rating saved in data base'})
 
+@rating_router.put('/rating/{id}',tags=['rating'])
+def update_rating(id:int, rating:Rating):
+    db = Session()
+    result = RatingService(db).get_rating_id(id)
+    if not result:
+        return JSONResponse(content={'message':'Register not found','status code':'404'})
+    RatingService(db).update_rating(id,rating)
+    return JSONResponse(content={'message':'The rating with the id {id} was modified'})
+
 @rating_router.delete('/rating/{id}',tags=['rating'])
 def delete_rating(id:int):
     db = Session()
